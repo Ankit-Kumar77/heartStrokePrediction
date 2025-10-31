@@ -62,7 +62,7 @@ current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 st.markdown('<h1 style="text-align:center;font-size:2.5rem;font-weight:800;color:#1a237e;letter-spacing:1.5px;margin-bottom:0.2rem;">💓 Heart Stroke Prediction</h1>', unsafe_allow_html=True)
 
 # --- Card Container for Form ---
-st.markdown('<div class="card">', unsafe_allow_html=True)
+# st.markdown('<div class="card">', unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 
 with col1:
@@ -198,4 +198,4 @@ if st.button("Predict"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # --- Footer ---
-st.markdown('<div class="footer">Made with ❤️ by Ankit &middot; Powered by Streamlit</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">Made with ❤️ by Ankit Kumar &middot</div>', unsafe_allow_html=True)
