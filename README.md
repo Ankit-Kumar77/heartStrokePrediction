@@ -6,7 +6,7 @@
 
 ### 🖼️ Screenshot
 
-![App Screenshot](screenshot.png)
+![App Screenshot](ss.png)
 
 A simple web application built with Streamlit to predict the risk of heart disease using a K-Nearest Neighbors (KNN) model.
 
