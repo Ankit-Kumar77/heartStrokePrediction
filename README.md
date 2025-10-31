@@ -1,4 +1,4 @@
-`# 💓 Heart Disease Prediction App
+## 💓 Heart Disease Prediction App
 
 A simple web application built with Streamlit to predict the risk of heart disease using a K-Nearest Neighbors (KNN) model.
 
