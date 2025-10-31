@@ -58,15 +58,23 @@ def load_lottiefile(filepath: str):
         return f.read()
 current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 
-st.markdown('<div class="main-header">', unsafe_allow_html=True)
+
+# --- Enhanced Professional Header ---
+st.markdown('''
+    <div class="main-header" style="margin-bottom:0.2rem;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="background:linear-gradient(90deg,#1a237e 30%,#3949ab 100%);border-radius:1.5rem;padding:0.5rem 2.5rem 0.5rem 2.5rem;box-shadow:0 2px 12px rgba(30,41,59,0.10);margin-bottom:0.2rem;">
+                <span style="font-size:2.7rem;font-weight:800;color:#fff;letter-spacing:1.5px;">💓 Heart Stroke Prediction</span>
+            </div>
+            <span style="font-size:1.15rem;color:#374151;font-weight:500;margin-top:0.2rem;">AI-powered risk assessment for heart disease</span>
+        </div>
+    </div>
+''', unsafe_allow_html=True)
 try:
     lottie_heart = load_lottiefile((current_dir/"animation.json").as_posix())
-    st_lottie(lottie_heart, speed=1, reverse=False, loop=True, quality="low", height=120, width=120, key=None)
+    st_lottie(lottie_heart, speed=1, reverse=False, loop=True, quality="low", height=110, width=110, key=None)
 except Exception:
     pass
-st.markdown('<div class="main-title">💓 Heart Stroke Prediction</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Predict your heart disease risk using a professional, AI-powered tool.</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
 
 # --- Card Container for Form ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
