@@ -1,4 +1,14 @@
+
 ## 💓 Heart Disease Prediction App
+
+
+### 🚀 [Live Demo](https://heartstrokeprediction-jyspitbxkkjdzgtstqqkiv.streamlit.app/)
+
+### 🖼️ Screenshot
+
+![App Screenshot](screenshot.png)
+
+A simple web application built with Streamlit to predict the risk of heart disease using a K-Nearest Neighbors (KNN) model.
 
 A simple web application built with Streamlit to predict the risk of heart disease using a K-Nearest Neighbors (KNN) model.
 

@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import joblib
@@ -11,21 +12,64 @@ scaler = joblib.load("heart_scaler.pkl")
 expected_columns = joblib.load("heart_columns.pkl")
 
 st.set_page_config(page_title="Heart Stroke Prediction", layout="centered")
-st.title("💓 Heart Stroke Prediction by Ankit")
-st.markdown("Provide the following details to check your heart stroke risk:")
-from pathlib import Path
 
+# --- Custom CSS for professional look ---
+st.markdown("""
+    <style>
+    .main-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    .main-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1a237e;
+        margin-bottom: 0.2rem;
+        letter-spacing: 1px;
+    }
+    .subtitle {
+        font-size: 1.2rem;
+        color: #374151;
+        margin-bottom: 1.5rem;
+    }
+    .card {
+        background: #f8fafc;
+        border-radius: 1.2rem;
+        box-shadow: 0 2px 12px rgba(30, 41, 59, 0.07);
+        padding: 2.5rem 2rem 1.5rem 2rem;
+        margin-bottom: 2rem;
+    }
+    .footer {
+        margin-top: 2.5rem;
+        color: #888;
+        font-size: 0.95rem;
+        text-align: center;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
+# --- Header Section ---
+from pathlib import Path
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return f.read()
-
 current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 
-lottie_heart = load_lottiefile((current_dir/"animation.json").as_posix())
-st_lottie(lottie_heart, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
+st.markdown('<div class="main-header">', unsafe_allow_html=True)
+try:
+    lottie_heart = load_lottiefile((current_dir/"animation.json").as_posix())
+    st_lottie(lottie_heart, speed=1, reverse=False, loop=True, quality="low", height=120, width=120, key=None)
+except Exception:
+    pass
+st.markdown('<div class="main-title">💓 Heart Stroke Prediction</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Predict your heart disease risk using a professional, AI-powered tool.</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
-
-# Layout: Use columns for better UX
+# --- Card Container for Form ---
+st.markdown('<div class="card">', unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 
 with col1:
@@ -118,43 +162,47 @@ if st.button("Predict"):
         except Exception:
             proba = None
 
-        # Result Visualization with Gauge Chart
-        fig = go.Figure(go.Indicator(
-            mode = "gauge+number+delta",
-            value = proba * 100 if proba is not None else 50,  # Use probability or default value
-            delta = {'reference': 50},
-            title = {'text': "<b>Heart Disease Risk</b>", 'align': "center"},
-            gauge = {
-                'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"},
-                'bar': {'color': "midnightblue"},
-                'bgcolor': "white",
-                'borderwidth': 2,
-                'bordercolor': "gray",
-                'steps': [
-                    {'range': [0, 40], 'color': 'green'},
-                    {'range': [40, 70], 'color': 'yellow'},
-                    {'range': [70, 100], 'color': 'red'}],
-                'threshold': {
-                    'line': {'color': "black", 'width': 4},
-                    'thickness': 0.75,
-                    'value': proba * 100 if proba is not None else 50}}
-        ))
+        # --- Result Section ---
+        st.markdown("<hr>", unsafe_allow_html=True)
+        result_col1, result_col2 = st.columns([1,2])
+        with result_col1:
+            st.markdown("<h4 style='color:#1a237e;'>Prediction Result</h4>", unsafe_allow_html=True)
+            if prediction == 1:
+                risk_level = "High"
+                recommendation = "It is recommended to consult a healthcare professional for further evaluation."
+            else:
+                risk_level = "Low"
+                recommendation = "Continue to maintain a healthy lifestyle and have regular check-ups."
+            st.write(f"**Risk Level:** {risk_level}")
+            st.write(f"**Recommendation:** {recommendation}")
+            if proba is not None:
+                st.write(f"**Confidence:** {proba:.2f}")
 
-        st.plotly_chart(fig, use_container_width=True)
+        with result_col2:
+            # Result Visualization with Gauge Chart
+            fig = go.Figure(go.Indicator(
+                mode = "gauge+number+delta",
+                value = proba * 100 if proba is not None else 50,  # Use probability or default value
+                delta = {'reference': 50},
+                title = {'text': "<b>Heart Disease Risk</b>", 'align': "center"},
+                gauge = {
+                    'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "darkblue"},
+                    'bar': {'color': "midnightblue"},
+                    'bgcolor': "white",
+                    'borderwidth': 2,
+                    'bordercolor': "gray",
+                    'steps': [
+                        {'range': [0, 40], 'color': 'green'},
+                        {'range': [40, 70], 'color': 'yellow'},
+                        {'range': [70, 100], 'color': 'red'}],
+                    'threshold': {
+                        'line': {'color': "black", 'width': 4},
+                        'thickness': 0.75,
+                        'value': proba * 100 if proba is not None else 50}}
+            ))
+            st.plotly_chart(fig, use_container_width=True)
 
-        # Interpretation and Recommendation
-        if prediction == 1:
-            risk_level = "High"
-            recommendation = "It is recommended to consult a healthcare professional for further evaluation."
-        else:
-            risk_level = "Low"
-            recommendation = "Continue to maintain a healthy lifestyle and have regular check-ups."
+st.markdown('</div>', unsafe_allow_html=True)
 
-        st.write(f"**Risk Level:** {risk_level}")
-        st.write(f"**Recommendation:** {recommendation}")
-
-        if proba is not None:
-            st.write(f"**Confidence:** {proba:.2f}")
-
-        # Optional: Display prediction (0 or 1)
-        # st.write(f"**Prediction:** {prediction}")
+# --- Footer ---
+st.markdown('<div class="footer">Made with ❤️ by Ankit &middot; Powered by Streamlit</div>', unsafe_allow_html=True)
